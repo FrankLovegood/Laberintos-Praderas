@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('nav a');
-    const colors = ['#ff6347', '#ffd700', '#00fa9a', '#1e90ff'];
+    const colors = ['#FF2000', '#FFDD00', '#008000', '#0000ff'];
 
     links.forEach(link => {
         link.addEventListener('click', (e) => {
