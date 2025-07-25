@@ -1,58 +1,120 @@
 body {
     font-family: 'Comic Sans MS', cursive, sans-serif;
     margin: 0;
-    background-color: #f0f8ff;
+    background-color: #e0f7fa; /* Light Cyan - a fresh, calm color */
 }
 
 header {
-    background-color: #4682b4; /* SteelBlue */
-    padding: 20px;
-    border-bottom: 5px solid #ff6347;
+    background-color: #ffffff; /* White header */
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
 }
 
 nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the right by default */
 }
 
 nav li {
-    display: inline-block;
-    margin: 0 15px;
-    vertical-align: middle;
+    margin: 0 15px; /* Increased margin for better spacing */
 }
 
 nav a {
     text-decoration: none;
-    color: #fff;
+    color: #333; /* Darker text for white header */
+    font-family: 'Arial Black', Gadget, sans-serif; /* New font */
     font-weight: bold;
-    font-size: 1.2em;
-    padding: 10px 20px;
-    background-color: #ff6347; /* Tomato */
-    border-radius: 10px;
-    transition: background-color 0.3s;
-    display: inline-block;
+    font-size: 1.1em;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: color 0.3s ease; /* Transition for color change */
+    display: block;
 }
 
-nav a:hover {
-    background-color: #ff4500; /* OrangeRed */
+/* Individual hover colors */
+nav li:nth-child(1) a:hover { color: #FF0000; } /* Servicios - Red */
+nav li:nth-child(2) a:hover { color: #FFA500; } /* Portafolio - Orange */
+nav li:nth-child(3) a:hover { color: #008000; } /* Sobre nosotros - Green */
+nav li:nth-child(4) a:hover { color: #0000FF; } /* Contacto - Blue */
+
+.logo-li {
+    margin-right: auto; /* Push logo to the left */
+    order: -1; /* Ensure logo is always first */
 }
 
 .logo-li a {
-    padding: 5px;
-    line-height: 0; /* Adjust for image alignment */
+    padding: 0;
+    line-height: 0;
+    border: 3px solid #ffd700; /* Gold border for the frame */
+    border-radius: 10px; /* Slightly rounded corners for the frame */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); /* Gold glow effect */
+    display: inline-block; /* To apply border and shadow correctly */
 }
 
 .logo-img {
-    width: 150px;
+    width: 120px; /* Slightly smaller logo */
     height: auto;
     vertical-align: middle;
+    padding: 5px; /* Padding inside the frame */
 }
+
+/* Responsive adjustments for header */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .logo-li {
+        margin-right: auto; /* Keep logo left-aligned on smaller screens */
+        margin-bottom: 15px;
+    }
+
+    nav ul {
+        justify-content: center;
+        width: 100%; /* Take full width for centering */
+    }
+
+    nav li {
+        margin: 5px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav li {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    nav a {
+        text-align: center;
+        padding: 10px;
+    }
+}
+
 
 main {
     padding: 20px;
     text-align: center;
+}
+
+main h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333; /* A standard dark color */
 }
 
 .banner-image {
@@ -284,6 +346,46 @@ footer {
     line-height: 1.6;
 }
 
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8em;
+    }
+
+    .hero p {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8em;
+    }
+
+    .hero p {
+        font-size: 0.9em;
+    }
+}
+
 .clients-section {
     padding: 40px 20px;
     background-color: #fff;
@@ -336,6 +438,20 @@ footer {
     filter: grayscale(0%);
     opacity: 1;
     transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .client-logos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .client-logos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+    }
 }
 
 .projects-section {
@@ -399,4 +515,38 @@ footer {
     color: #777;
     margin: 0 15px 15px 15px;
     line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .project-card h3 {
+        font-size: 1.3em;
+    }
+
+    .project-card p {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .project-card img {
+        height: 150px;
+    }
+
+    .project-card h3 {
+        font-size: 1.2em;
+    }
+
+    .project-card p {
+        font-size: 0.85em;
+    }
 }
