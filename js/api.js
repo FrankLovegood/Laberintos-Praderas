@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ----- CONFIGURACIÓN -----
-    const API_BASE_URL = 'http://localhost:5071/api/portfolio'; 
+    const BACKEND_BASE_URL = 'http://localhost:5071';
+    const API_BASE_URL = `${BACKEND_BASE_URL}/api/portfolio`;
 
     // ----- ELEMENTOS DEL DOM -----
     const clientsContainer = document.getElementById('client-logos-container');
@@ -10,10 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----- FUNCIÓN PARA CARGAR CLIENTES -----
     const loadClients = () => {
         fetch(`${API_BASE_URL}/clientes`)
+            // PASO 1: Recibir la "bandeja" (Response object)
             .then(response => {
-                if (!response.ok) throw new Error('Error al cargar clientes');
-                return response.json();
+                if (!response.ok) {
+                    throw new Error('Error de red al cargar clientes');
+                }
+                // PASO 2: Levantar la tapa y devolver los "platillos" (el JSON)
+                return response.json(); 
             })
+            // AHORA SÍ, 'clientes' es un array
             .then(clientes => {
                 clientsContainer.innerHTML = '';
                 if (clientes.length === 0) {
@@ -25,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ul.className = 'client-logos-grid';
                 
                 clientes.forEach(cliente => {
-                    const li = `<li><a href="#"><img src="${cliente.logoUrl || 'images/clients/placeholder.png'}" alt="Logo de ${cliente.nombre}"></a></li>`;
+                    const logoUrlCompleta = cliente.logoUrl ? `${BACKEND_BASE_URL}/${cliente.logoUrl}` : 'images/clients/placeholder.png';
+                    const li = `<li><a href="#"><img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}"></a></li>`;
                     ul.innerHTML += li;
                 });
                 clientsContainer.appendChild(ul);
@@ -39,10 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----- FUNCIÓN PARA CARGAR PROYECTOS -----
     const loadProjects = () => {
         fetch(`${API_BASE_URL}/proyectos`)
+            // PASO 1: Recibir la "bandeja"
             .then(response => {
-                if (!response.ok) throw new Error('Error al cargar proyectos');
+                if (!response.ok) {
+                    throw new Error('Error de red al cargar proyectos');
+                }
+                // PASO 2: Devolver los "platillos"
                 return response.json();
             })
+            // AHORA SÍ, 'proyectos' es un array
             .then(proyectos => {
                 projectsContainer.innerHTML = '';
                 if (proyectos.length === 0) {
@@ -51,9 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 proyectos.forEach(proyecto => {
+                    const imageUrlCompleta = proyecto.imagenUrl ? `${BACKEND_BASE_URL}/${proyecto.imagenUrl}` : 'images/projects/placeholder.png';
                     const projectCardHTML = `
                         <div class="project-card">
-                            <img src="${proyecto.imagenUrl || 'images/projects/placeholder.png'}" alt="Imagen de ${proyecto.nombreProyecto}">
+                            <img src="${imageUrlCompleta}" alt="Imagen de ${proyecto.nombreProyecto}">
                             <h3>${proyecto.nombreProyecto}</h3>
                             <p>${proyecto.descripcion}</p>
                             <small>Cliente: ${proyecto.nombreCliente}</small>
