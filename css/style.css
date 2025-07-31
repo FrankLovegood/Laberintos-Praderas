@@ -1,5 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+:root {
+    --primary-color: #66cdaa; /* Medium Aquamarine */
+    --secondary-color: #f0e68c; /* Khaki */
+    --accent-color-1: #ff6b6b; /* Coral Red */
+    --accent-color-2: #48d1cc; /* Medium Turquoise */
+    --text-color: #333;
+    --background-color: #fdfdfd;
+    --header-bg: #ffffff;
+    --footer-bg: #333;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
 body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     margin: 0;
     background-color: #e0f7fa; /* Light Cyan - a fresh, calm color */
 }
@@ -280,8 +293,7 @@ main h1 {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    color: #000000;
     padding: 20px;
     text-align: center;
     margin-top: 20px;
@@ -549,4 +561,41 @@ footer {
     .project-card p {
         font-size: 0.85em;
     }
+}
+
+.project-card img {
+    width: 100%;
+    height: 200px; /* Ajusta esta altura a lo que necesites */
+    object-fit: cover; /* Recorta la imagen para llenar el espacio sin deformarla */
+    transition: transform 0.3s ease; /* Efecto suave para el siguiente paso */
+}
+
+/* Opcional: Un pequeño efecto de zoom en la tarjeta al pasar el mouse */
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+
+/* --- Estilos para la Vista Previa Ampliada (La Ventana Emergente) --- */
+
+.image-preview-popup {
+    position: fixed; /* Se posiciona sobre todo lo demás */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra la imagen perfectamente */
+    z-index: 1000; /* Se asegura de que esté por encima de todo */
+    max-width: 90vw; /* Ancho máximo del 90% del ancho de la ventana */
+    max-height: 90vh; /* Alto máximo del 90% del alto de la ventana */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+    border: 3px solid white; /* Un borde blanco */
+    border-radius: 5px;
+    pointer-events: none; /* Evita que el popup interfiera con el mouse */
+    opacity: 0; /* Empieza invisible para la animación */
+    transition: opacity 0.3s ease-in-out; /* Animación suave de aparición */
+}
+
+.image-preview-popup img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
 }
