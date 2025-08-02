@@ -5,24 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     const BACKEND_BASE_URL = 'http://localhost:5071';
     const API_BASE_URL = `${BACKEND_BASE_URL}/api/portfolio`;
-    const PREVIEW_DELAY = 1500; // Delay de 1.5 segundos, más ágil
+    const PREVIEW_DELAY = 1500; // Delay de 1.5 segundos
 
-    let hoverTimer = null; // Variable para controlar el temporizador del hover
-
-    // ===================================================================
-    // ELEMENTOS DEL DOM
-    // ===================================================================
-    const clientsContainer = document.getElementById('client-logos-container');
-    const projectsContainer = document.getElementById('projects-container');
-    const clientDetailContainer = document.getElementById('client-detail-container');
+    let hoverTimer = null; // Variable para el temporizador
 
     // ===================================================================
-    // LÓGICA DE VISTA PREVIA DE IMAGEN (NUEVO)
+    // LÓGICA DE VISTA PREVIA DE IMAGEN (REUTILIZABLE)
     // ===================================================================
     const attachPreviewEvents = () => {
-        const projectCards = document.querySelectorAll('.project-card');
+        // Selecciona CUALQUIER elemento que tenga el atributo 'data-full-image-url'
+        const previewableCards = document.querySelectorAll('[data-full-image-url]');
 
-        projectCards.forEach(card => {
+        previewableCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 const fullImageUrl = card.dataset.fullImageUrl;
                 if (!fullImageUrl) return;
@@ -37,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const showImagePreview = (imageUrl) => {
-        hideImagePreview(); // Limpia cualquier popup anterior
+        hideImagePreview();
         const popup = document.createElement('div');
         popup.className = 'image-preview-popup';
         popup.innerHTML = `<img src="${imageUrl}" alt="Vista previa ampliada">`;
         document.body.appendChild(popup);
-        setTimeout(() => { popup.style.opacity = '1'; }, 10); // Fade-in
+        setTimeout(() => { popup.style.opacity = '1'; }, 10);
     };
 
     const hideImagePreview = () => {
@@ -51,14 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ===================================================================
-    // FUNCIONES PARA CARGAR DATOS
+    // FUNCIONES PARA CARGAR DATOS (API)
     // ===================================================================
     const loadClientsList = () => {
-        if (!clientsContainer) return;
+        const container = document.getElementById('client-logos-container');
+        if (!container) return;
+
         fetch(`${API_BASE_URL}/clientes`)
             .then(response => response.json())
             .then(clientes => {
-                clientsContainer.innerHTML = '';
+                container.innerHTML = '';
                 const ul = document.createElement('ul');
                 ul.className = 'client-logos-grid';
                 clientes.forEach(cliente => {
@@ -66,24 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     const li = `<li><a href="cliente-detalle.html?id=${cliente.id}"><img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}"></a></li>`;
                     ul.innerHTML += li;
                 });
-                clientsContainer.appendChild(ul);
+                container.appendChild(ul);
             })
             .catch(error => {
                 console.error('Error al cargar clientes:', error);
-                clientsContainer.innerHTML = '<p>No se pudieron cargar los clientes.</p>';
+                container.innerHTML = '<p>No se pudieron cargar los clientes.</p>';
             });
     };
 
     const loadProjectsList = () => {
-        if (!projectsContainer) return;
+        const container = document.getElementById('projects-container');
+        if (!container) return;
+
         fetch(`${API_BASE_URL}/proyectos`)
             .then(response => response.json())
             .then(proyectos => {
-                projectsContainer.innerHTML = '';
+                container.innerHTML = '';
                 proyectos.forEach(proyecto => {
                     const imageUrlCompleta = proyecto.imagenUrl ? `${BACKEND_BASE_URL}/${proyecto.imagenUrl}` : 'images/projects/placeholder.png';
-                    
-                    // --- INTEGRACIÓN: Añadimos 'data-full-image-url' a la tarjeta ---
                     const projectCardHTML = `
                         <div class="project-card" data-full-image-url="${imageUrlCompleta}">
                             <img src="${imageUrlCompleta}" alt="Imagen de ${proyecto.nombreProyecto}">
@@ -92,37 +88,25 @@ document.addEventListener('DOMContentLoaded', () => {
                             <small>Cliente: ${proyecto.nombreCliente}</small>
                         </div>
                     `;
-                    projectsContainer.innerHTML += projectCardHTML;
+                    container.innerHTML += projectCardHTML;
                 });
-
-                // --- INTEGRACIÓN: Después de crear las tarjetas, les añadimos los eventos de hover ---
-                attachPreviewEvents();
+                attachPreviewEvents(); // Activa el hover después de cargar los proyectos
             })
             .catch(error => {
                 console.error('Error al cargar proyectos:', error);
-                projectsContainer.innerHTML = '<p>No se pudieron cargar los proyectos.</p>';
+                container.innerHTML = '<p>No se pudieron cargar los proyectos.</p>';
             });
     };
 
     const loadClientDetail = () => {
-        // ... (esta función no cambia y se queda igual que en tu código)
-    };
-
-    // ===================================================================
-    // ENRUTADOR: Decide qué funciones ejecutar
-    // ===================================================================
-    if (clientsContainer && projectsContainer) {
-        loadClientsList();
-        loadProjectsList();
-    } else if (clientDetailContainer) {
-        const loadClientDetail = () => {
-        if (!clientDetailContainer) return;
+        const container = document.getElementById('client-detail-container');
+        if (!container) return;
 
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('id');
 
         if (!clientId) {
-            clientDetailContainer.innerHTML = '<h2>Error: No se especificó un cliente.</h2>';
+            container.innerHTML = '<h2>Error: No se especificó un cliente.</h2>';
             return;
         }
 
@@ -137,49 +121,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const detailHTML = `
                     <section class="client-detail-header">
                         ${logoUrlCompleta ? `<img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}">` : ''}
-                        <h1> ${cliente.nombre}</h1>
+                        <h1>${cliente.nombre}</h1>
                     </section>
                     <section class="client-detail-content">
                         ${cliente.detalleHtml || '<p>Más información sobre nuestros proyectos con este cliente próximamente.</p>'}
                     </section>
                     <a href="portafolio.html" class="btn-back">← Volver al Portafolio</a>
                 `;
-                clientDetailContainer.innerHTML = detailHTML;
+                container.innerHTML = detailHTML;
             })
             .catch(error => {
                 console.error('Error al cargar detalle de cliente:', error);
-                clientDetailContainer.innerHTML = '<h2>Cliente no encontrado</h2><p>La página que buscas no existe o el cliente no es público.</p>';
+                container.innerHTML = '<h2>Cliente no encontrado</h2><p>La página que buscas no existe o el cliente no es público.</p>';
             });
     };
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientId = urlParams.get('id');
-        if (!clientId) {
-            clientDetailContainer.innerHTML = '<h2>Error: No se especificó un cliente.</h2>';
-        } else {
-            fetch(`${API_BASE_URL}/clientes/${clientId}`)
-            .then(response => {
-                if (!response.ok) throw new Error('Cliente no encontrado o no es público.');
-                return response.json();
-            })
-            .then(cliente => {
-                document.title = `${cliente.nombre} - Portafolio`;
-                const logoUrlCompleta = cliente.logoUrl ? `${BACKEND_BASE_URL}/${cliente.logoUrl}` : '';
-                const detailHTML = `
-                    <section class="client-detail-header">
-                        ${logoUrlCompleta ? `<img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}">` : ''}
-                        <h1> ${cliente.nombre}</h1>
-                    </section>
-                    <section class="client-detail-content">
-                        ${cliente.detalleHtml || '<p>Más información sobre nuestros proyectos con este cliente próximamente.</p>'}
-                    </section>
-                    <a href="portafolio.html" class="btn-back">← Volver al Portafolio</a>
-                `;
-                clientDetailContainer.innerHTML = detailHTML;
-            })
-            .catch(error => {
-                console.error('Error al cargar detalle de cliente:', error);
-                clientDetailContainer.innerHTML = '<h2>Cliente no encontrado</h2><p>La página que buscas no existe o el cliente no es público.</p>';
-            });
-        }
-    }
+
+     loadClientsList();
+    loadProjectsList();
+    loadClientDetail();
+    attachPreviewEvents();
 });
