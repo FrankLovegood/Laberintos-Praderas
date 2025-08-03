@@ -555,10 +555,11 @@ footer {
     position: fixed; /* ¡CRUCIAL! Se queda fijo y no se mueve con el scroll */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1; /* ¡LA MAGIA! Lo envía detrás de todo el contenido del body */
     pointer-events: none; /* Evita que las imágenes bloqueen clics */
+    overflow: hidden; /* Evita que las manchas se salgan del contenedor */
 }
 
 /* El contenedor para todo tu contenido visible */
@@ -572,55 +573,57 @@ footer {
 /* Estilo base para cada mancha */
 .paint-splat {
     position: absolute; /* Se posiciona relativo al .splats-background */
-    opacity: 1; /* Sutil para que no distraiga */
+    opacity: 1; 
+     max-width: 100%; /* Asegura que no se salga del contenedor */
+    pointer-events: none; /* No bloquea interacciones del mouse */
 }
 
 
 .splat-1 { /*azul*/
-    width: 350px;
-    top: 800px;
-    left: -120px;
+    width: 18vw;
+    top: 80vh;
+    left: -6vw;
     transform: rotate(-30deg);
 }
 
 .splat-2 {  /*amarillo*/
-    width: 200px;
-    top: 30%;
-    left: 1600px;
+    width: 10vw;
+    top: 30vh;
+    left: 83vw;
     transform: rotate(20deg);
 }
 
 .splat-3 { /*rojo*/
-    width: 280px;
-    top: 300px;
-    left: -60px;
+    width: 14vw;
+    top: 30vh;
+    left: -3vw;
     transform: rotate(10deg);
 }
 
 .splat-4 { /*verde*/
-    width: 320px;
-    top: 600px;
-    left: 1534px;
+    width: 16vw;
+    top: 60vh;
+    left: 85vw;
     transform: rotate(45deg);
 }
 
 .splat-5 { /*rosa*/
-    width: 250px;
-    top: 380px;
-    left: 10%;
+    width: 12vw;
+    top: 38vh;
+    left: 20vh;
     transform: rotate(-10deg);
 }
 
 .splat-6 { /*morado*/
-    width: 300px;
-    top: 920px;
-    left: 1580px;
+    width: 15vw;
+    top: 92vh;
+    left: 82vw;
     transform: rotate(-5deg);
 }
 .splat-7 { /*cyan*/
-    width: 300px;
-    top: -50px;
-    left: 1620px;
+    width: 15vw;
+    top: -5vh;
+    left: 82vw;
     transform: rotate(-5deg);
 }
 
