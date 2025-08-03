@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     // CONFIGURACIÓN GLOBAL
     // ===================================================================
-    const BACKEND_BASE_URL = 'http://localhost:5071';
+    const BACKEND_BASE_URL = 'https://app.laberintospraderas.com';
     const API_BASE_URL = `${BACKEND_BASE_URL}/api/portfolio`;
     const PREVIEW_DELAY = 1500; // Delay de 1.5 segundos
 
