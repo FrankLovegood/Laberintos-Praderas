@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     const BACKEND_BASE_URL = 'https://app.laberintospraderas.com';
     const API_BASE_URL = `${BACKEND_BASE_URL}/api/portfolio`;
-    const PREVIEW_DELAY = 1500; // Delay de 1.5 segundos
-
-    let hoverTimer = null; // Variable para el temporizador
+    const PREVIEW_DELAY = 1500;
+    let hoverTimer = null;
 
     // ===================================================================
-    // LÓGICA DE VISTA PREVIA DE IMAGEN (REUTILIZABLE)
+    // LÓGICA DE VISTA PREVIA DE IMAGEN (Sin cambios)
     // ===================================================================
     const attachPreviewEvents = () => {
         // Selecciona CUALQUIER elemento que tenga el atributo 'data-full-image-url'
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     };
-
     const showImagePreview = (imageUrl) => {
         hideImagePreview();
         const popup = document.createElement('div');
@@ -38,14 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(popup);
         setTimeout(() => { popup.style.opacity = '1'; }, 10);
     };
-
     const hideImagePreview = () => {
         const existingPopup = document.querySelector('.image-preview-popup');
         if (existingPopup) existingPopup.remove();
     };
 
     // ===================================================================
-    // FUNCIONES PARA CARGAR DATOS (API)
+    // FUNCIONES PARA CARGAR DATOS (API) - CORREGIDAS
     // ===================================================================
     const loadClientsList = () => {
         const container = document.getElementById('client-logos-container');
@@ -58,8 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ul = document.createElement('ul');
                 ul.className = 'client-logos-grid';
                 clientes.forEach(cliente => {
-                    const logoUrlCompleta = cliente.logoUrl ? `${BACKEND_BASE_URL}/${cliente.logoUrl}` : 'images/clients/placeholder.png';
-                    const li = `<li><a href="cliente-detalle.html?id=${cliente.id}"><img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}"></a></li>`;
+                    // --- ¡CORRECCIÓN CLAVE! ---
+                    // La API ahora devuelve la URL completa de Azure Blob Storage.
+                    // Solo necesitamos un placeholder si la URL es nula.
+                    const logoUrl = cliente.logoUrl || 'images/clients/placeholder.png';
+                    const li = `<li><a href="cliente-detalle.html?id=${cliente.id}"><img src="${logoUrl}" alt="Logo de ${cliente.nombre}"></a></li>`;
                     ul.innerHTML += li;
                 });
                 container.appendChild(ul);
@@ -79,10 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(proyectos => {
                 container.innerHTML = '';
                 proyectos.forEach(proyecto => {
-                    const imageUrlCompleta = proyecto.imagenUrl ? `${BACKEND_BASE_URL}/${proyecto.imagenUrl}` : 'images/projects/placeholder.png';
+                    // --- ¡CORRECCIÓN CLAVE! ---
+                    const imageUrl = proyecto.imagenUrl || 'images/projects/placeholder.png';
                     const projectCardHTML = `
-                        <div class="project-card" data-full-image-url="${imageUrlCompleta}">
-                            <img src="${imageUrlCompleta}" alt="Imagen de ${proyecto.nombreProyecto}">
+                        <div class="project-card" data-full-image-url="${imageUrl}">
+                            <img src="${imageUrl}" alt="Imagen de ${proyecto.nombreProyecto}">
                             <h3>${proyecto.nombreProyecto}</h3>
                             <p>${proyecto.descripcion}</p>
                             <small>Cliente: ${proyecto.nombreCliente}</small>
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     container.innerHTML += projectCardHTML;
                 });
-                attachPreviewEvents(); // Activa el hover después de cargar los proyectos
+                attachPreviewEvents();
             })
             .catch(error => {
                 console.error('Error al cargar proyectos:', error);
@@ -117,10 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(cliente => {
                 document.title = `${cliente.nombre} - Portafolio`;
-                const logoUrlCompleta = cliente.logoUrl ? `${BACKEND_BASE_URL}/${cliente.logoUrl}` : '';
+                // --- ¡CORRECCIÓN CLAVE! ---
+                const logoUrl = cliente.logoUrl || ''; // Si no hay logo, no muestra nada
                 const detailHTML = `
                     <section class="client-detail-header">
-                        ${logoUrlCompleta ? `<img src="${logoUrlCompleta}" alt="Logo de ${cliente.nombre}">` : ''}
+                        ${logoUrl ? `<img src="${logoUrl}" alt="Logo de ${cliente.nombre}">` : ''}
                         <h1>${cliente.nombre}</h1>
                     </section>
                     <section class="client-detail-content">
@@ -136,8 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-     loadClientsList();
-    loadProjectsList();
-    loadClientDetail();
-    attachPreviewEvents();
+    // ===================================================================
+    // ENRUTADOR: Decide qué funciones ejecutar (CORREGIDO)
+    // ===================================================================
+    const currentPagePath = window.location.pathname;
+
+    if (currentPagePath.endsWith('/') || currentPagePath.endsWith('/index.html') || currentPagePath.endsWith('/portfolio.html')) {
+        loadClientsList();
+        loadProjectsList();
+    } else if (currentPagePath.endsWith('/cliente-detalle.html')) {
+        loadClientDetail();
+    } else if (currentPagePath.endsWith('/servicios.html')) {
+        attachPreviewEvents();
+    }
 });
