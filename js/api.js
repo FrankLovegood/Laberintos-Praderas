@@ -45,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     const loadClientsList = () => {
         const container = document.getElementById('client-logos-container');
-        if (!container) return; // Si no está en esta página, no hace nada.
-
+        if (!container) return;
         fetch(`${API_BASE_URL}/clientes`)
             .then(response => response.json())
             .then(clientes => {
@@ -55,21 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ul.className = 'client-logos-grid';
                 clientes.forEach(cliente => {
                     const logoUrl = cliente.logoUrl || 'images/clients/placeholder.png';
-                    const li = `<li><a href="cliente-detalle.html?id=${cliente.id}"><img src="${logoUrl}" alt="Logo de ${cliente.nombre}"></a></li>`;
+                    // ¡ENLACE CORRECTO!
+                    const li = `<li><a href="/cliente-detalle.html?id=${cliente.id}"><img src="${logoUrl}" alt="Logo de ${cliente.nombre}"></a></li>`;
                     ul.innerHTML += li;
                 });
                 container.appendChild(ul);
             })
-            .catch(error => {
-                console.error('Error al cargar clientes:', error);
-                container.innerHTML = '<p>No se pudieron cargar los clientes.</p>';
-            });
+            .catch(error => { console.error('Error al cargar clientes:', error); });
     };
 
-    const loadProjectsList = () => {
-        const container = document.getElementById('projects-container');
-        if (!container) return; // Si no está en esta página, no hace nada.
 
+     const loadProjectsList = () => {
+        const container = document.getElementById('projects-container');
+        if (!container) return;
         fetch(`${API_BASE_URL}/proyectos`)
             .then(response => response.json())
             .then(proyectos => {
@@ -88,27 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 attachPreviewEvents();
             })
-            .catch(error => {
-                console.error('Error al cargar proyectos:', error);
-                container.innerHTML = '<p>No se pudieron cargar los proyectos.</p>';
-            });
+            .catch(error => { console.error('Error al cargar proyectos:', error); });
     };
 
-    const loadClientDetail = () => {
+     const loadClientDetail = () => {
         const container = document.getElementById('client-detail-container');
-        if (!container) return; // Si no está en esta página, no hace nada.
-
+        if (!container) return;
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('id');
-
         if (!clientId) {
             container.innerHTML = '<h2>Error: No se especificó un cliente.</h2>';
             return;
         }
-
         fetch(`${API_BASE_URL}/clientes/${clientId}`)
             .then(response => {
-                if (!response.ok) throw new Error('Cliente no encontrado o no es público.');
+                if (!response.ok) throw new Error('Cliente no encontrado.');
                 return response.json();
             })
             .then(cliente => {
@@ -120,15 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h1>${cliente.nombre}</h1>
                     </section>
                     <section class="client-detail-content">
-                        ${cliente.detalleHtml || '<p>Más información sobre nuestros proyectos con este cliente próximamente.</p>'}
+                        ${cliente.detalleHtml || '<p>Información próximamente.</p>'}
                     </section>
-                    <a href="portafolio.html" class="btn-back">← Volver al Portafolio</a>
+                    <a href="/portfolio.html" class="btn-back">← Volver al Portafolio</a>
                 `;
                 container.innerHTML = detailHTML;
             })
             .catch(error => {
                 console.error('Error al cargar detalle de cliente:', error);
-                container.innerHTML = '<h2>Cliente no encontrado</h2><p>La página que buscas no existe o el cliente no es público.</p>';
+                container.innerHTML = '<h2>Cliente no encontrado</h2>';
             });
     };
 
