@@ -439,7 +439,7 @@ footer {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(600vw, 1fr));
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
@@ -452,6 +452,10 @@ footer {
     overflow: hidden;
     text-align: left;
     transition: transform 0.3s ease;
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .project-card:hover {
@@ -664,7 +668,6 @@ footer {
     margin-top: 0;
     color: #333;
 }
-
 .pillar-list p {
     margin-bottom: 0;
     color: #666;
