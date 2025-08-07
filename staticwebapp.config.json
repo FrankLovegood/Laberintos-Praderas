@@ -1,6 +1,11 @@
 {
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,jpeg,gif,svg}", "/css/*.css", "/js/*.js"]
-  }
+    "rewrite": "/404.html" 
+  },
+  "routes": [
+    {
+      "route": "/cliente-detalle.html",
+      "rewrite": "/cliente-detalle.html"
+    }
+  ]
 }
