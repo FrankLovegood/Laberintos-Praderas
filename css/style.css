@@ -749,3 +749,9 @@ html, body {
         grid-template-columns: 1fr; /* 1 sola columna */
     }
 }
+projects-container {
+    max-width: 1200px;
+    margin: 0px;
+    padding: 20px;
+    display: grid;
+}
