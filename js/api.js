@@ -9,25 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let hoverTimer = null;
 
     // ===================================================================
-    // LÓGICA DE VISTA PREVIA DE IMAGEN (Sin cambios)
+    // LÓGICA DE VISTA PREVIA DE IMAGEN
     // ===================================================================
     const attachPreviewEvents = () => {
-        // Selecciona CUALQUIER elemento que tenga el atributo 'data-full-image-url'
         const previewableCards = document.querySelectorAll('[data-full-image-url]');
-
         previewableCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 const fullImageUrl = card.dataset.fullImageUrl;
                 if (!fullImageUrl) return;
                 hoverTimer = setTimeout(() => showImagePreview(fullImageUrl), PREVIEW_DELAY);
             });
-
             card.addEventListener('mouseleave', () => {
                 clearTimeout(hoverTimer);
                 hideImagePreview();
             });
         });
     };
+
     const showImagePreview = (imageUrl) => {
         hideImagePreview();
         const popup = document.createElement('div');
@@ -36,17 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(popup);
         setTimeout(() => { popup.style.opacity = '1'; }, 10);
     };
+
     const hideImagePreview = () => {
         const existingPopup = document.querySelector('.image-preview-popup');
         if (existingPopup) existingPopup.remove();
     };
 
     // ===================================================================
-    // FUNCIONES PARA CARGAR DATOS (API) - CORREGIDAS
+    // FUNCIONES PARA CARGAR DATOS (API)
     // ===================================================================
     const loadClientsList = () => {
         const container = document.getElementById('client-logos-container');
-        if (!container) return;
+        if (!container) return; // Si no está en esta página, no hace nada.
 
         fetch(`${API_BASE_URL}/clientes`)
             .then(response => response.json())
@@ -55,9 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ul = document.createElement('ul');
                 ul.className = 'client-logos-grid';
                 clientes.forEach(cliente => {
-                    // --- ¡CORRECCIÓN CLAVE! ---
-                    // La API ahora devuelve la URL completa de Azure Blob Storage.
-                    // Solo necesitamos un placeholder si la URL es nula.
                     const logoUrl = cliente.logoUrl || 'images/clients/placeholder.png';
                     const li = `<li><a href="cliente-detalle.html?id=${cliente.id}"><img src="${logoUrl}" alt="Logo de ${cliente.nombre}"></a></li>`;
                     ul.innerHTML += li;
@@ -72,14 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadProjectsList = () => {
         const container = document.getElementById('projects-container');
-        if (!container) return;
+        if (!container) return; // Si no está en esta página, no hace nada.
 
         fetch(`${API_BASE_URL}/proyectos`)
             .then(response => response.json())
             .then(proyectos => {
                 container.innerHTML = '';
                 proyectos.forEach(proyecto => {
-                    // --- ¡CORRECCIÓN CLAVE! ---
                     const imageUrl = proyecto.imagenUrl || 'images/projects/placeholder.png';
                     const projectCardHTML = `
                         <div class="project-card" data-full-image-url="${imageUrl}">
@@ -101,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadClientDetail = () => {
         const container = document.getElementById('client-detail-container');
-        if (!container) return;
+        if (!container) return; // Si no está en esta página, no hace nada.
 
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('id');
@@ -118,8 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(cliente => {
                 document.title = `${cliente.nombre} - Portafolio`;
-                // --- ¡CORRECCIÓN CLAVE! ---
-                const logoUrl = cliente.logoUrl || ''; // Si no hay logo, no muestra nada
+                const logoUrl = cliente.logoUrl || '';
                 const detailHTML = `
                     <section class="client-detail-header">
                         ${logoUrl ? `<img src="${logoUrl}" alt="Logo de ${cliente.nombre}">` : ''}
@@ -139,21 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ===================================================================
-    // ENRUTADOR: Decide qué funciones ejecutar (CORREGIDO)
+    // EJECUCIÓN AL CARGAR LA PÁGINA
     // ===================================================================
-    const currentPagePath = window.location.pathname;
-
-    if (currentPagePath.endsWith('/') || currentPagePath.endsWith('/index.html') || currentPagePath.endsWith('/portfolio.html')) {
-        loadClientsList();
-        loadProjectsList();
-    } else if (currentPagePath.endsWith('/cliente-detalle.html')) {
-        loadClientDetail();
-    } else if (currentPagePath.endsWith('/servicios.html')) {
-        attachPreviewEvents();
-    }
-});
-
- loadClientsList();
+    // Simplemente llamamos a todas las funciones. Ellas mismas decidirán si deben
+    // ejecutarse buscando sus contenedores específicos en el HTML de la página actual.
+    loadClientsList();
     loadProjectsList();
     loadClientDetail();
     attachPreviewEvents();
+});
