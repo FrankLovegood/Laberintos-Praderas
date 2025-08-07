@@ -686,9 +686,6 @@ footer {
         height: 30vh; /* Una altura fija para el modo móvil */
         border-radius: 10px 10px 0 0; /* Redondea solo las esquinas superiores */
     }
-    .pillar-list li:nth-child(even) {
-        flex-direction: column; 
-    }
     .pillar-list li:nth-child(even) img {
         border-radius: 0 0 10px 10px; /* Redondea solo las esquinas inferiores */
     }
@@ -726,9 +723,7 @@ html, body {
 }
 
 .project-card .project-content {
-    padding: 15px;;
-    flex-direction: column;
-    flex-grow: 1; /* Ocupa el espacio restante */
+    padding: 15px;
 }
 
 
