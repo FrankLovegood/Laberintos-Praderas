@@ -589,14 +589,14 @@ footer {
 
 .splat-2 {  /*amarillo*/
     width: 10vw;
-    top: 22vh;
+    top: 30vh;
     left: 83vw;
     transform: rotate(20deg);
 }
 
 .splat-3 { /*rojo*/
     width: 14vw;
-    top: 12vh;
+    top: 30vh;
     left: -3vw;
     transform: rotate(10deg);
 }
@@ -604,21 +604,21 @@ footer {
 .splat-4 { /*verde*/
     width: 16vw;
     top: 52vh;
-    left: 85vw;
+    left: 84vw;
     transform: rotate(45deg);
 }
 
 .splat-5 { /*rosa*/
     width: 12vw;
-    top: 50vh;
-    left: 15vh;
+    top: 60vh;
+    left: 6vh;
     transform: rotate(-10deg);
 }
 
 .splat-6 { /*morado*/
     width: 15vw;
     top: 98vh;
-    left: 84vw;
+    left: 80vw;
     transform: rotate(-5deg);
 }
 .splat-7 { /*cyan*/

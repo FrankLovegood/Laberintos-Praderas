@@ -152,3 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
         attachPreviewEvents();
     }
 });
+
+ loadClientsList();
+    loadProjectsList();
+    loadClientDetail();
+    attachPreviewEvents();
