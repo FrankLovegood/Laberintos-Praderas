@@ -1,45 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // ===================================================================
-    // CONFIGURACIÓN GLOBAL
-    // ===================================================================
     const BACKEND_BASE_URL = 'https://app.laberintospraderas.com';
     const API_BASE_URL = `${BACKEND_BASE_URL}/api/portfolio`;
-    const PREVIEW_DELAY = 1500;
-    let hoverTimer = null;
+    
+    // Contenedor principal que vamos a modificar
+    const mainContentContainer = document.querySelector('main'); 
 
     // ===================================================================
-    // LÓGICA DE VISTA PREVIA DE IMAGEN
+    // PLANTILLAS HTML
     // ===================================================================
-    const attachPreviewEvents = () => {
-        const previewableCards = document.querySelectorAll('[data-full-image-url]');
-        previewableCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                const fullImageUrl = card.dataset.fullImageUrl;
-                if (!fullImageUrl) return;
-                hoverTimer = setTimeout(() => showImagePreview(fullImageUrl), PREVIEW_DELAY);
-            });
-            card.addEventListener('mouseleave', () => {
-                clearTimeout(hoverTimer);
-                hideImagePreview();
-            });
-        });
+    const createPortfolioView = () => {
+        mainContentContainer.innerHTML = `
+            <section class="hero">
+                <h1>Nuestra Experiencia en Acción</h1>
+                <p>...</p>
+            </section>
+            <section class="clients-section">
+                <h2>La Confianza de los Líderes...</h2>
+                <div id="client-logos-container"><p>Cargando clientes...</p></div>
+            </section>
+            <section class="projects-section">
+                <h2>Proyectos que Inspiran Sonrisas</h2>
+                <div id="projects-container"><p>Cargando proyectos...</p></div>
+            </section>
+        `;
+        loadClientsList();
+        loadProjectsList();
     };
 
-    const showImagePreview = (imageUrl) => {
-        hideImagePreview();
-        const popup = document.createElement('div');
-        popup.className = 'image-preview-popup';
-        popup.innerHTML = `<img src="${imageUrl}" alt="Vista previa ampliada">`;
-        document.body.appendChild(popup);
-        setTimeout(() => { popup.style.opacity = '1'; }, 10);
+    const createClientDetailView = (clientId) => {
+        mainContentContainer.innerHTML = `<div id="client-detail-container"><p>Cargando detalles del cliente...</p></div>`;
+        loadClientDetail(clientId);
     };
-
-    const hideImagePreview = () => {
-        const existingPopup = document.querySelector('.image-preview-popup');
-        if (existingPopup) existingPopup.remove();
-    };
-
     // ===================================================================
     // FUNCIONES PARA CARGAR DATOS (API)
     // ===================================================================
@@ -88,20 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => { console.error('Error al cargar proyectos:', error); });
     };
 
-     const loadClientDetail = () => {
+       const loadClientDetail = (clientId) => {
         const container = document.getElementById('client-detail-container');
         if (!container) return;
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientId = urlParams.get('id');
-        if (!clientId) {
-            container.innerHTML = '<h2>Error: No se especificó un cliente.</h2>';
-            return;
-        }
+        
         fetch(`${API_BASE_URL}/clientes/${clientId}`)
-            .then(response => {
-                if (!response.ok) throw new Error('Cliente no encontrado.');
-                return response.json();
-            })
+            .then(response => { if (!response.ok) throw new Error('Cliente no encontrado'); return response.json(); })
             .then(cliente => {
                 document.title = `${cliente.nombre} - Portafolio`;
                 const logoUrl = cliente.logoUrl || '';
@@ -110,45 +94,28 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${logoUrl ? `<img src="${logoUrl}" alt="Logo de ${cliente.nombre}">` : ''}
                         <h1>${cliente.nombre}</h1>
                     </section>
-                    <section class="client-detail-content">
-                        ${cliente.detalleHtml || '<p>Información próximamente.</p>'}
-                    </section>
+                    <section class="client-detail-content">${cliente.detalleHtml || '<p>Información próximamente.</p>'}</section>
                     <a href="/portfolio.html" class="btn-back">← Volver al Portafolio</a>
                 `;
                 container.innerHTML = detailHTML;
             })
-            .catch(error => {
-                console.error('Error al cargar detalle de cliente:', error);
-                container.innerHTML = '<h2>Cliente no encontrado</h2>';
-            });
+            .catch(error => { container.innerHTML = '<h2>Cliente no encontrado</h2>'; });
     };
 
     // ===================================================================
-// ENRUTADOR LÓGICO DEL LADO DEL CLIENTE
-// ===================================================================
-function router() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const clientId = urlParams.get('id');
+    // ENRUTADOR PRINCIPAL
+    // ===================================================================
+    const router = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientId = urlParams.get('id');
 
-    // Primero, siempre activamos los hovers en cualquier página que tenga tarjetas
-    attachPreviewEvents();
-
-    if (clientId) {
-        // --- SI LA URL CONTIENE UN ID, ESTAMOS EN UNA PÁGINA DE DETALLE ---
-        const mainContent = document.querySelector('main'); // Busca el contenedor principal
-        if (mainContent) {
-            // Reemplaza el contenido de 'main' con el div que 'loadClientDetail' necesita
-            mainContent.innerHTML = '<div id="client-detail-container"><p>Cargando detalles...</p></div>';
-            loadClientDetail();
+        if (window.location.pathname.includes('cliente-detalle')) {
+            createClientDetailView(clientId);
+        } else {
+            createPortfolioView();
         }
-    } else {
-        // --- SI NO HAY ID, ESTAMOS EN UNA PÁGINA DE LISTA (PORTAFOLIO) ---
-        // Estas funciones solo se ejecutarán si encuentran sus divs
-        loadClientsList();
-        loadProjectsList();
-    }
-}
+    };
 
-// Ejecuta el enrutador cuando la página carga
+    // Ejecuta el enrutador
     router();
 });

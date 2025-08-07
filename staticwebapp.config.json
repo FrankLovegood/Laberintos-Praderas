@@ -1,16 +1,6 @@
 {
-  "routes": [
-    {
-      "route": "/cliente-detalle.html",
-      "rewrite": "/cliente-detalle.html"
-    }
-  ],
   "navigationFallback": {
-    "rewrite": "/404.html"
-  },
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/404.html"
-    }
+    "rewrite": "/index.html",
+    "exclude": ["/images/*", "/css/*", "/js/*"]
   }
 }
