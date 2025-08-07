@@ -716,6 +716,7 @@ html, body {
     overflow: hidden; /* ¡Muy importante! */
     display: flex;
     flex-direction: column;
+    max-width: 400px;
 }
 
 /* --- ¡LA CLAVE! La Imagen Dentro de la Tarjeta --- */
