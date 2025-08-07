@@ -133,12 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ===================================================================
-    // EJECUCIÓN AL CARGAR LA PÁGINA
-    // ===================================================================
-    // Simplemente llamamos a todas las funciones. Ellas mismas decidirán si deben
-    // ejecutarse buscando sus contenedores específicos en el HTML de la página actual.
-    loadClientsList();
-    loadProjectsList();
-    loadClientDetail();
+// ENRUTADOR LÓGICO DEL LADO DEL CLIENTE
+// ===================================================================
+function router() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientId = urlParams.get('id');
+
+    // Primero, siempre activamos los hovers en cualquier página que tenga tarjetas
     attachPreviewEvents();
+
+    if (clientId) {
+        // --- SI LA URL CONTIENE UN ID, ESTAMOS EN UNA PÁGINA DE DETALLE ---
+        const mainContent = document.querySelector('main'); // Busca el contenedor principal
+        if (mainContent) {
+            // Reemplaza el contenido de 'main' con el div que 'loadClientDetail' necesita
+            mainContent.innerHTML = '<div id="client-detail-container"><p>Cargando detalles...</p></div>';
+            loadClientDetail();
+        }
+    } else {
+        // --- SI NO HAY ID, ESTAMOS EN UNA PÁGINA DE LISTA (PORTAFOLIO) ---
+        // Estas funciones solo se ejecutarán si encuentran sus divs
+        loadClientsList();
+        loadProjectsList();
+    }
+}
+
+// Ejecuta el enrutador cuando la página carga
+    router();
 });
