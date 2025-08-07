@@ -1,6 +1,6 @@
 {
   "navigationFallback": {
-    "rewrite": "/cliente-detalle.html",
+    "rewrite": "/Cliente-detalle.html",
     "exclude": ["/images/*", "/css/*", "/js/*"]
   }
 }
