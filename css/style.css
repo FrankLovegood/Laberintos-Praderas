@@ -714,8 +714,7 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     overflow: hidden; /* ¡Muy importante! */
-    display: flex;
-    flex-direction: column;
+    display: grid;
     max-width: 30vw;
 }
 
@@ -727,8 +726,7 @@ html, body {
 }
 
 .project-card .project-content {
-    padding: 15px;
-    display: flex;
+    padding: 15px;;
     flex-direction: column;
     flex-grow: 1; /* Ocupa el espacio restante */
 }
@@ -748,10 +746,4 @@ html, body {
     .projects-grid {
         grid-template-columns: 1fr; /* 1 sola columna */
     }
-}
-projects-container {
-    max-width: 1200px;
-    margin: 0px;
-    padding: 20px;
-    display: grid;
 }
