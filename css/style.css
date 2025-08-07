@@ -464,7 +464,7 @@ footer {
 }
 
 .project-card img {
-    width: 100px;
+    width: 100%;
     height: 200px;
     object-fit: cover;
     border-bottom: 1px solid #eee;
@@ -695,4 +695,72 @@ footer {
 }
 html, body {
     overflow-x: hidden; /* Evita el scroll horizontal */
+}
+
+/* --- Contenedor de la Cuadrícula --- */
+.projects-grid {
+    display: grid;
+    /* Crea columnas automáticas. Cada una tendrá un mínimo de 320px */
+    /* y se estirará para ocupar el espacio sobrante (1fr). */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem; /* Espacio generoso entre las tarjetas */
+    max-width: 1400px; /* Ancho máximo para la cuadrícula completa */
+    margin: 40px auto; /* Centra la cuadrícula y le da espacio vertical */
+    padding: 0 20px; /* Evita que las tarjetas toquen los bordes en pantallas pequeñas */
+}
+
+/* --- Estilo de Cada Tarjeta de Proyecto --- */
+.project-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+    overflow: hidden; /* Muy importante para que las imágenes respeten el borde redondeado */
+    display: flex;
+    flex-direction: column; /* Apila imagen y contenido */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-8px); /* Efecto de "elevación" al pasar el ratón */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de la imagen (para el recorte) */
+.project-card .project-image-container {
+    height: 220px;
+    overflow: hidden;
+}
+
+/* La imagen dentro de la tarjeta */
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta la imagen para llenar el espacio sin deformarla */
+}
+
+/* El contenido de texto de la tarjeta */
+.project-card .project-content {
+    padding: 20px;
+    text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+    flex-grow: 1; /* Ayuda a que las tarjetas en la misma fila tengan la misma altura */
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.project-card p {
+    margin-bottom: 10px;
+    flex-grow: 1; /* Empuja la 'small' hacia abajo */
+}
+
+.project-card small {
+    margin-top: auto; /* Se alinea al fondo */
+    color: #757575;
+    font-style: italic;
 }
