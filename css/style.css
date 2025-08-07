@@ -703,7 +703,7 @@ html, body {
     /* Crea 3 columnas en pantallas grandes, 2 en tablets, 1 en móviles */
     grid-template-columns: repeat(3, 1fr); 
     gap: 2rem;
-    max-width: 1200px;
+    max-width: 10000px; /* Ancho máximo para que no se estire demasiado */
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -716,7 +716,7 @@ html, body {
     overflow: hidden; /* ¡Muy importante! */
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    max-width: 30vw;
 }
 
 /* --- ¡LA CLAVE! La Imagen Dentro de la Tarjeta --- */
