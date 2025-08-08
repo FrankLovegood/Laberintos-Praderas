@@ -437,16 +437,6 @@ footer {
     line-height: 1.5;
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
-    gap: 30px; /* Espacio entre tarjetas */
-    max-width: 1200px; /* Ancho máximo de toda la cuadrícula */
-    margin: 0 auto; /* Centra la cuadrícula en la página */
-    padding: 20px; /* Añade un poco de aire en los bordes */
-}
-
 /* --- Estilos para las Tarjetas --- */
 .project-card {
     background-color: #fff;
@@ -474,6 +464,7 @@ footer {
     font-size: 1.5em;
     color: #333;
     margin: 15px 15px 10px 15px;
+    line-height: 1.4;
 }
 
 .project-card p {
@@ -697,10 +688,9 @@ html, body {
 /* --- Contenedor de la Cuadrícula --- */
 .projects-grid {
     display: grid;
-    /* Crea 3 columnas en pantallas grandes, 2 en tablets, 1 en móviles */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 2rem;
-    max-width: 10000px; /* Ancho máximo para que no se estire demasiado */
+    grid-template-columns: repeat(3, 1fr); /* Siempre 3 columnas en escritorio */
+    gap: 2rem; /* Espacio entre tarjetas */
+    max-width: 1200px; /* Evita que se estire demasiado */
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -710,16 +700,18 @@ html, body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    overflow: hidden; /* ¡Muy importante! */
-    display: grid;
-    max-width: 30vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 /* --- ¡LA CLAVE! La Imagen Dentro de la Tarjeta --- */
 .project-card img {
-    width: 100%; /* La imagen ocupa el 100% del ancho DE SU TARJETA, no de la pantalla */
-    height: 200px; /* Altura fija para todas las imágenes */
-    object-fit: cover; /* Recorta la imagen para que encaje perfectamente */
+    width: 100%; /* Imagen al 100% del ancho de la tarjeta */
+    height: 200px; /* Altura fija para uniformidad */
+    object-fit: cover; /* Recorta sin deformar */
+    border-bottom: 1px solid #eee;
 }
 
 .project-card .project-content {
