@@ -570,7 +570,7 @@ footer {
 /* Estilo base para cada mancha */
 .paint-splat {
     position: absolute; /* Se posiciona relativo al .splats-background */
-    opacity: 1; 
+    opacity: 0.4; 
      max-width: 100%; /* Asegura que no se salga del contenedor */
     pointer-events: none; /* No bloquea interacciones del mouse */
 }
