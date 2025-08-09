@@ -11,18 +11,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     const createPortfolioView = () => {
         mainContentContainer.innerHTML = `
-            <section class="hero">
-                <h1>Nuestra Experiencia en Acción</h1>
-                <p>...</p>
-            </section>
-            <section class="clients-section">
-                <h2>La Confianza de los Líderes...</h2>
-                <div id="client-logos-container"><p>Cargando clientes...</p></div>
-            </section>
-            <section class="projects-section">
-                <h2>Proyectos que Inspiran Sonrisas</h2>
-                <div id="projects-container"><p>Cargando proyectos...</p></div>
-            </section>
+             <main>
+        <section class="hero">
+            <h1>Nuestra Experiencia en Acción</h1>
+            <p>A lo largo de más de 10 años, hemos tenido el privilegio de colaborar con marcas líderes y emprendedores visionarios para transformar espacios en mundos de aventura. Cada proyecto en nuestro portafolio es un testimonio de nuestro compromiso con la calidad, la seguridad y la diversión.</p>
+        </section>
+
+        <section class="clients-section">
+            <h2>La Confianza de los Líderes de la Industria</h2>
+            <p>Nos enorgullece ser el socio estratégico de algunas de las marcas más reconocidas a nivel nacional. Su confianza es nuestro mayor aval y nos impulsa a mantener los más altos estándares en cada proyecto que emprendemos.</p>
+            
+            <!-- CONTENEDOR VACÍO PARA LOS LOGOS DE CLIENTES -->
+            <div id="client-logos-container" class="client-logos-grid">
+                <p>Cargando clientes...</p>
+            </div>
+        </section>
+
+        <section class="projects-section">
+            <h2>Proyectos que Inspiran Sonrisas</h2>
+            <p>Cada laberinto, cada pradera de juegos, es una obra de arte diseñada para estimular la imaginación y garantizar la seguridad. Aquí te presentamos algunos de nuestros proyectos más destacados, que reflejan nuestra pasión por la innovación y la excelencia.</p>
+            
+
+            <div id="projects-container" class="projects-grid">
+                <p>Cargando proyectos...</p>
+            </div>
+        </section>
+
+    </main>
         `;
         loadClientsList();
         loadProjectsList();
