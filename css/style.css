@@ -742,8 +742,10 @@ html, body {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 20px !important;
 }
-.clients-section h2,
-.projects-section h2 {
+.hero {
+    background-color: #f0f0f0; /* Un color de fondo suave */
+    padding: 40px 20px;
+    text-align: center;
     white-space: normal !important;  /* Permite que el texto salte de línea */
     overflow: visible !important;    /* Permite que el texto sea visible */
     text-overflow: clip !important;  /* No añade puntos suspensivos */
