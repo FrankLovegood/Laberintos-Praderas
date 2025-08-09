@@ -734,3 +734,18 @@ html, body {
         grid-template-columns: 1fr; /* 1 sola columna */
     }
 }
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    gap: 20px; /* espacio entre columnas y filas */
+}
+
+.projects-grid > * {
+    width: 100%; /* que cada tarjeta ocupe todo el ancho de su celda */
+}
+#projects-container {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+    border: 2px solid red;
+}

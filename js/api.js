@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h1>${cliente.nombre}</h1>
                     </section>
                     <section class="client-detail-content">${cliente.detalleHtml || '<p>Información próximamente.</p>'}</section>
-                    <a href="/portfolio.html" class="btn-back">← Volver al Portafolio</a>
+                    <a href="/portafolio.html" class="btn-back">← Volver al Portafolio</a>
                 `;
                 container.innerHTML = detailHTML;
             })
